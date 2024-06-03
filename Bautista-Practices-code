@@ -1,0 +1,65 @@
+import java.math.BigDecimal;
+
+public class BigDecimalSquareRoot {
+    public static void main(String[] args) {
+        // Define the number for which square root needs to be calculated
+        BigDecimal number = new BigDecimal("25"); // Example: square root of 25
+
+        // Set the scale and rounding mode for the result
+        int scale = 20; // Number of decimal places in the result
+        int roundingMode = BigDecimal.ROUND_HALF_UP; // Rounding mode for the result
+
+        // Calculate the square root using Newton's method
+        BigDecimal result = squareRoot(number, scale, roundingMode);
+
+        // Print the result
+        System.out.println("Square root of " + number + " is: " + result);
+    }
+
+    // Method to calculate square root using Newton's method
+    public static BigDecimal squareRoot(BigDecimal number, int scale, int roundingMode) {
+        // Initial approximation for square root
+        BigDecimal guess = new BigDecimal(Math.sqrt(number.doubleValue()));
+
+        // Iterate until the difference between successive guesses is smaller than the desired scale
+        BigDecimal result = guess;
+        BigDecimal tolerance = BigDecimal.ONE.scaleByPowerOfTen(-scale);
+        while (true) {
+            BigDecimal previous = result;
+            result = number.divide(result, scale, roundingMode)
+                          .add(result)
+                          .divide(BigDecimal.valueOf(2), scale, roundingMode);
+            if (previous.subtract(result).abs().compareTo(tolerance) <= 0) {
+                break;
+            }
+        }
+
+        return result;
+    }
+}
+The names number, scale, roundingMode, guess, result, previous, and tolerance tell us exactly what each variable is used for.
+For example, number is the value we want the square root of, scale is how many decimal places we want in the result, and roundingMode is how we want to round the result.
+The code that calculates the square root is put into its own method called squareRoot(). This makes it easier to read and reuse.
+Instead of putting all the logic in the main method, we separate it out, which makes the code cleaner and more understandable.
+
+Organizing Code into Modules:
+
+The code that calculates the square root is put into its own method called squareRoot(). This makes it easier to read and reuse.
+Instead of putting all the logic in the main method, we separate it out, which makes the code cleaner and more understandable.
+Code Modularity:
+The calculation of the square root is separated into its own method squareRoot(). This makes the code more modular, easier to read, and maintain.
+
+code modularity
+// Method to calculate square root using Newton's method
+public static BigDecimal squareRoot(BigDecimal number, int scale, int roundingMode) {
+
+
+Comments are added throughout the code to explain what each part does. This helps anyone reading the code understand the purpose of each step.
+Specify the integer that requires the computation of the square root.
+// Define the number for which square root needs to be calculated
+// Set the scale and rounding mode for the result
+// Calculate the square root using Newton's method
+// Print the result
+// Initial approximation for square root
+// Iterate until the difference between successive guesses is smaller than the desired scale
+By adding these comments, the code becomes more understandable and easier to maintain for anyone who might work on it in the future.
